@@ -1,13 +1,10 @@
 # Parcial de Diseño y Arquitectura de Software: Gestión de fallos y Resiliencia en Microservicios
 
----
-
 ## Integrantes:
 - **<b>Nicolas Almonacid</b>**
 - **<b>Giovanni Raffa</b>**
 - **<b>Juan David Moreno</b>**
 
----
 
 ## Descripción
 
