@@ -1,0 +1,42 @@
+services:
+  auth-service:
+    build: ./auth-service
+    container_name: auth-service
+    ports:
+      - "3001:3001"
+    depends_on:
+      - gremlin-agent
+
+  web-service:
+    build: ./web-service
+    container_name: web-service
+    ports:
+      - "3000:3000"
+    depends_on:
+      - auth-service
+      - gremlin-agent
+
+  gremlin-agent:
+    image: gremlin/gremlin
+    container_name: gremlin-agent
+    environment:
+      - GREMLIN_TEAM_ID=${GREMLIN_TEAM_ID}
+      - GREMLIN_TEAM_SECRET=${GREMLIN_TEAM_SECRET}
+      - GREMLIN_IDENTIFIER=docker-gremlin
+    cap_add:
+      - NET_ADMIN
+      - SYS_BOOT
+      - SYS_TIME
+      - KILL
+      - SYS_PTRACE
+      - SYS_ADMIN
+      - SYS_CHROOT
+      - SYS_RESOURCE
+    volumes:
+      - ./var/lib/gremlin:/var/lib/gremlin
+      - ./var/log/gremlin:/var/log/gremlin
+      - /sys/fs/cgroup:/sys/fs/cgroup
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: daemon
+    network_mode: host
+    pid: host
